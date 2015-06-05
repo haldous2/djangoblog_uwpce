@@ -28,6 +28,7 @@ class CategoryTestCase(TestCase):
 
 
 class FrontEndTestCase(TestCase):
+
     """test views provided in the front-end"""
     fixtures = ['myblog_test_fixture.json', ]
 
@@ -65,3 +66,10 @@ class FrontEndTestCase(TestCase):
                 self.assertContains(resp, title)
             else:
                 self.assertEqual(resp.status_code, 404)
+
+    def test_user_name_bug_to_feature(self):
+
+        expected = u"Author Name"
+        p1 = Post(author_name)
+        actual = unicode(p1)
+        self.assertEqual(expected, actual)
