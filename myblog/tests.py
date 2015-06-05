@@ -17,6 +17,13 @@ class PostTestCase(TestCase):
         actual = unicode(p1)
         self.assertEqual(expected, actual)
 
+    def test_user_name_bug_to_feature(self):
+
+        expected = u"Bob LaBlaw"
+        p1 = Post(author=self.user)
+        actual = p1.author_name()
+        self.assertEqual(expected, actual)
+
 
 class CategoryTestCase(TestCase):
 
@@ -66,10 +73,3 @@ class FrontEndTestCase(TestCase):
                 self.assertContains(resp, title)
             else:
                 self.assertEqual(resp.status_code, 404)
-
-    def test_user_name_bug_to_feature(self):
-
-        expected = u"Author Name"
-        p1 = Post(author_name)
-        actual = unicode(p1)
-        self.assertEqual(expected, actual)
