@@ -19,7 +19,7 @@ class PostTestCase(TestCase):
 
     def test_user_name_bug_to_feature(self):
 
-        expected = u"Bob LaBlaw"
+        expected = u"Mr. Administrator"
         p1 = Post(author=self.user)
         actual = p1.author_name()
         self.assertEqual(expected, actual)
