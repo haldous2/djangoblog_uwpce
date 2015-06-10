@@ -11,14 +11,15 @@ class PostTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.get(pk=1)
 
+    ## returns unicode
     def test_unicode(self):
         expected = u"This is a title"
         p1 = Post(title=expected)
         actual = unicode(p1)
         self.assertEqual(expected, actual)
 
+    ## page has functioning username
     def test_user_name_bug_to_feature(self):
-
         expected = u"Mr. Administrator"
         p1 = Post(author=self.user)
         actual = p1.author_name()
@@ -28,6 +29,7 @@ class PostTestCase(TestCase):
     #def test_blah(self):
     #    self.assertEqual('joe', 'bob')
 
+    ## page should not exist
     def test_non_existent_post_returns_404(self):
         resp = self.client.get('/post/9999')
         self.assertEqual(resp.status_code, 404)
@@ -35,12 +37,32 @@ class PostTestCase(TestCase):
 
 class CategoryTestCase(TestCase):
 
+    """test views provided in the front-end"""
+    fixtures = ['myblog_test_fixture.json', ]
+
+    ## Setup categories for testing
+    ## Note: tests entries deleted when test completed
+    def setUp(self):
+        for count in range(1, 5):
+            category = Category(name="Category %d" % count, description="This is the %d category." % count)
+            category.save()
+
+    ## returns unicode
     def test_unicode(self):
         expected = "A Category"
         c1 = Category(name=expected)
         actual = unicode(c1)
         self.assertEqual(expected, actual)
 
+    ## page at /categories/ returns ok
+    def test_category_list(self):
+        resp = self.client.get('/categories/')
+        self.assertEqual(resp.status_code, 200)
+
+    ## page at /category/x/ returns ok where x is numeric
+    def test_category_detail(self):
+        resp = self.client.get('/category/1/')
+        self.assertEqual(resp.status_code, 200)
 
 class FrontEndTestCase(TestCase):
 
@@ -82,7 +104,7 @@ class FrontEndTestCase(TestCase):
             else:
                 self.assertEqual(resp.status_code, 404)
 
-    def test_category(self):
-        resp = self.client.get('/categories/1/')
-        self.assertEqual(resp.status_code, 200)
-        self.assertTrue("Recent Posts" in resp.content)
+    # def test_category(self):
+    #     resp = self.client.get('/categories/1/')
+    #     self.assertEqual(resp.status_code, 200)
+    #     self.assertTrue("Recent Posts" in resp.content)
