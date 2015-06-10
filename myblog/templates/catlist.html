@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <a class="backlink" href="/">Posts</a> |
+  <strong>Categories</strong>
+
+  <h1>Categories</h1>
+
+  {% comment %} here is where the query happens {% endcomment %}
+  {% for category in categories %}
+  <div class="post">
+    <h2>
+      <a href="{% url 'blog_category' category.pk %}">{{ category }}</a>
+    </h2>
+    <div class="post-body">
+      {{ category.description }}
+    </div>
+    <ul class="categories">
+      {% for post in category.posts.all %}
+        <!--<li><a href="/posts/{{ post.id }}">{{ post }}</a></li>-->
+        <li><a href="{% url 'blog_detail' post.pk %}">{{ post }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+{% endblock %}

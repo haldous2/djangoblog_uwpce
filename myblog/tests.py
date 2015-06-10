@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.utils.timezone import utc
 from myblog.models import Post, Category
 
-
 class PostTestCase(TestCase):
+
     fixtures = ['myblog_test_fixture.json', ]
 
     def setUp(self):
@@ -23,6 +23,14 @@ class PostTestCase(TestCase):
         p1 = Post(author=self.user)
         actual = p1.author_name()
         self.assertEqual(expected, actual)
+
+    ## test, test of test
+    #def test_blah(self):
+    #    self.assertEqual('joe', 'bob')
+
+    def test_non_existent_post_returns_404(self):
+        resp = self.client.get('/post/9999')
+        self.assertEqual(resp.status_code, 404)
 
 
 class CategoryTestCase(TestCase):
@@ -73,3 +81,8 @@ class FrontEndTestCase(TestCase):
                 self.assertContains(resp, title)
             else:
                 self.assertEqual(resp.status_code, 404)
+
+    def test_category(self):
+        resp = self.client.get('/categories/1/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue("Recent Posts" in resp.content)

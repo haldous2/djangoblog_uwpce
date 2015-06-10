@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a class="backlink" href="/">Posts</a> |
+<a class="backlink" href="/categories/">Categories</a>
+
+<h1>Category {{ category }}</h1>
+<div class="post-body">
+  {{ category.description }}
+</div>
+<ul class="categories">
+  {% for post in category.posts.all %}
+    <li><a href="/posts/{{ post.id }}">{{ post }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+  <strong>Posts</strong> |
+  <a class="backlink" href="/categories/">Categories</a>
+
   <h1>Recent Posts</h1>
 
   {% comment %} here is where the query happens {% endcomment %}
@@ -17,7 +21,7 @@
     </div>
     <ul class="categories">
       {% for category in post.categories.all %}
-        <li>{{ category }}</li>
+        <li><a href="{% url 'blog_category' category.pk %}">{{ category }}</a></li>
       {% endfor %}
     </ul>
   </div>

@@ -15,14 +15,15 @@ class Post(models.Model):
         return self.title
 
     def author_name(self):
-        return self.author.first_name + " " + self.author.last_name
+        #return self.author.first_name + " " + self.author.last_name
+        return " ".join((self.author.first_name, self.author.last_name))
 
 
 class Category(models.Model):
+
     name = models.CharField(max_length=128)
     description = models.TextField(blank=True)
-    posts = models.ManyToManyField(Post, blank=True, null=True,
-                                   related_name='categories')
+    posts = models.ManyToManyField(Post, blank=True, null=True, related_name='categories')
 
     class Meta:
         verbose_name_plural = 'Categories'
