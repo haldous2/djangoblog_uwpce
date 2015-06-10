@@ -58,11 +58,17 @@ class CategoryTestCase(TestCase):
     def test_category_list(self):
         resp = self.client.get('/categories/')
         self.assertEqual(resp.status_code, 200)
+        self.assertTrue("Category 1" in resp.content)
+        self.assertTrue("Category 2" in resp.content)
+        self.assertTrue("Category 3" in resp.content)
+        self.assertTrue("Category 4" in resp.content)
 
     ## page at /category/x/ returns ok where x is numeric
     def test_category_detail(self):
         resp = self.client.get('/category/1/')
         self.assertEqual(resp.status_code, 200)
+        self.assertTrue("Category 1" in resp.content)
+        self.assertTrue("This is the 1 category" in resp.content)
 
 class FrontEndTestCase(TestCase):
 
